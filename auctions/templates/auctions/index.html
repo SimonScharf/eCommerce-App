@@ -1,0 +1,57 @@
+{% extends "auctions/layout.html" %}
+
+
+{% block body %}
+
+    <h2 style = "text-align: center">
+        Welcome to my eCommerce website!
+    </h2>
+
+    <div>
+
+      <ol>
+        {% for listing in listings %}
+        <li>
+
+            <div class="aligned">
+                {% if listing.image_link is not None %}
+                <a href = "{% url 'view_listing' listing.id %}" style="float:left">
+                  <img src= "{{ listing.image_link }}" alt="Incorrect image URL.">
+                </a>
+                {% else %}
+                <a href = "{% url 'view_listing' listing.id %}" style="float:left ">
+                  <img src= "https://media.istockphoto.com/vectors/no-image-available-sign-vector-id1138179183?k=6&m=1138179183&s=612x612&w=0&h=prMYPP9mLRNpTp3XIykjeJJ8oCZRhb2iez6vKs8a8eE=" alt="Incorrect image URL.">
+                </a>
+                {% endif %}
+                <span style="padding: 20px;">
+                  {% if listing.currentBid %}
+                  <a href = "{% url 'view_listing' listing.id %}" style="color: black">
+                      <h4><strong>Current Bid</strong>: {{ listing.currentBid }}</h4>
+                  </a>
+                  {% else %}
+                  <a href = "{% url 'view_listing' listing.id %}" style="color: black">
+                      <h4><strong>Starting Bid</strong>: ${{ listing.startingBid }}.00</h4>
+                  </a>
+                  {% endif %}
+
+                  <ul>
+                      <li>Listing {{ listing.id }}: {{listing.title}}</li>
+                      <li>Description: {{ listing.description }}</li>
+                      <p></p>
+                      <p class="text-muted" style="font-size: small">Posted on: {{ listing.created_at }}</p>
+                  </ul>
+
+                </span>
+            </div>
+
+        </li>
+
+        {% empty %}
+            <div>No active Listings yet!</div>
+        {% endfor %}
+
+      </ol>
+
+    </div>
+
+{% endblock %}
